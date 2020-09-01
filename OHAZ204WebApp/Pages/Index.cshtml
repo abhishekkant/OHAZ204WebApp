@@ -1,0 +1,11 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+    string name = ViewData["Name"] as string;
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome Azure Learner: @name</h1>
+    <p>We are deploying using DevOps in the staging slot....</p>
+</div>
