@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
@@ -13,16 +14,27 @@ namespace OHAZ204WebApp.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly IConfiguration _config;
+        private TelemetryClient aiTelemetry;
 
-        public IndexModel(IConfiguration config, ILogger<IndexModel> logger)
+        public IndexModel(TelemetryClient telemetry, IConfiguration config, ILogger<IndexModel> logger)
         {
             _logger = logger;
             _config = config;
+            aiTelemetry = telemetry;
         }
 
         public void OnGet()
         {
-            ViewData["name"] = _config["Name"];
+            aiTelemetry.TrackEvent("Request_HomePage");
+            try
+            {
+                ViewData["name"] = _config["Name"];
+                //throw new ApplicationException("Intentional Exception");
+            }
+            catch (Exception ex)
+            {
+                aiTelemetry.TrackException(ex);
+            }
         }
     }
 }
