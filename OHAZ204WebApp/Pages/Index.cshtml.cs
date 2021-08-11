@@ -26,14 +26,16 @@ namespace OHAZ204WebApp.Pages
         public void OnGet()
         {
             aiTelemetry.TrackEvent("Request_HomePage");
+            
             try
             {
                 ViewData["name"] = _config["Name"];
-                //throw new ApplicationException("Intentional Exception");
+               // throw new ApplicationException("Intentional Exception");
             }
             catch (Exception ex)
             {
                 aiTelemetry.TrackException(ex);
+                //throw;
             }
         }
     }
